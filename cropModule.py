@@ -26,17 +26,17 @@ def getImage(imageType):
     if(imageType=='goldDouble'):
         img = ImageGrab.grab(bbox =(870,880,930,910))
         concatImg = cv2.hconcat([nm.array(img), nm.array(img)])
-        #img = ImageGrab.grab(bbox =(884,883,898,910))
-        #concatImg = cv2.hconcat([nm.array(img), nm.array(img), nm.array(img)])
-        #cv2.imshow('c', concatImg)
-        #cv2.waitKey(0)
         return nm.asarray(concatImg)
 
-        #870,880,930,915
     elif(imageType=='goldSingle'):
         img = ImageGrab.grab(bbox =(884,883,898,910))
         concatImg = cv2.hconcat([nm.array(img), nm.array(img), nm.array(img)])
-        #cv2.imshow('c', concatImg)
-        #cv2.waitKey(0)
         return nm.asarray(concatImg)
-    
+    elif(imageType=='roundTime'):
+        img = ImageGrab.grab(bbox =(1132,10,1170,35))
+        concatImg = cv2.hconcat([nm.array(img),nm.array(img), nm.array(img)])
+        return nm.asarray(concatImg)
+    elif(imageType=='roundTimeSingle'):
+        img = ImageGrab.grab(bbox =(1140,10,1155,32))
+        concatImg = cv2.hconcat([nm.array(img),nm.array(img), nm.array(img)])
+        return nm.asarray(concatImg)

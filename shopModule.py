@@ -1,10 +1,13 @@
 from difflib import SequenceMatcher
-from classes import getClasses
-from origins import getOrigins
+from static.classes import getClasses
+from static.origins import getOrigins
+import cropModule
+import convertModule
+from pynput.mouse import Button, Controller
 
 origins = getOrigins()
 classes = getClasses()
-
+mouse = Controller()
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -18,6 +21,37 @@ def produceSimiliarTexts(text):
     return texts
 
 exceptionOrigins = ["dark", "space", "star", "void"]
+
+
+def checkSinergies(selectedClass, selectedOrigin):
+    classImages = cropModule.getImages('shopClasses')
+    i = 0
+    for image in classImages:
+        classText = convertModule.imageToText(image) 
+        foundClass = checkClass(classText, 0, 0)
+        if(selectedClass == '' and foundClass != 'None'):
+            selectedClass = foundClass
+            buyFromShop(i)
+        elif(selectedClass == foundClass):
+            buyFromShop(i)
+        i+=1        
+        time.sleep(1)
+        print("foundClass: " + foundClass)
+    originImages = cropModule.getImages('shopOrigins')
+    i = 0
+    for image in originImages:
+        originText = convertModule.imageToText(image)
+        foundOrigin = checkOrigin(originText, 0, 0)
+        if(selectedOrigin == '' and foundClass != 'None'):
+            selectedOrigin = foundOrigin
+            buyFromShop(i)
+        elif(selectedOrigin == foundOrigin):
+            buyFromShop(i)    
+        i+=1
+        time.sleep(1)
+        print("foundOrigin: " + foundOrigin)
+    return [foundClass, foundOrigin]
+
 
 def checkOrigin(originText, classText, callTime):
     print("originText: " + originText)
@@ -57,3 +91,9 @@ def checkClass(classText, originText, callTime):
         return classes[similarities.index(max(similarities))]
     else:
         return checkOrigin(classText, classes[similarities.index(max(similarities))], 1)        
+
+
+def buyFromShop(heroIndex):
+    mouse.position = (530+heroIndex*160, 750)
+    mouse.press(Button.left)
+    mouse.release(Button.left)
