@@ -21,3 +21,5 @@ while(k>4):
     decisions = shopModule.checkSinergies(selectedClass, selectedOrigin)
     selectedClass = decisions[0]
     selectedOrigin = decisions[1]
+
+print(roundModule.getSecondsLeft(0))
