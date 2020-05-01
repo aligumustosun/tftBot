@@ -3,23 +3,56 @@ import pytesseract
 import cv2
 from PIL import ImageGrab, Image
 from pynput.mouse import Button, Controller
-import shopModule
 import re
 import time
-import cropModule
-import convertModule
-import gold
-import roundModule
-
+from modules import *
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-k = 0
-selectedClass  = ''
-selectedOrigin = ''
-while(k>4):
-    input()   
-    decisions = shopModule.checkSinergies(selectedClass, selectedOrigin)
-    selectedClass = decisions[0]
-    selectedOrigin = decisions[1]
 
-print(roundModule.getSecondsLeft(0))
+class Bot():
+    def __init__(self, options):
+        botParser.initializeValues(self, options)
+
+    def getInformations(self):
+        attrs = vars(self)
+        for item in attrs.items():
+            print(item[0] + ": " + item[1])   
+        
+    def start(self):
+        self.running = True
+        while(self.running):
+            checked = shop.checkSinergies(self.selectedClass, self.selectedOrigin)
+            if(checked == 0):
+                time.sleep(1)
+            else:
+                time.sleep(round.getSeconds()+1)
+    def stop(self):
+        self.running = False
+
+    def checkMouse(self):
+        if(Controller().position == (0,0)):
+            self.stop()
+        elif(Controller().position == (1535,863)):
+            self.start()    
+
+class Options():
+    def __init__(self, economyMode, selectedOrigin, selectedClass):
+        self.economyMode = economyMode
+        self.selectedOrigin = selectedOrigin
+        self.selectedClass = selectedClass
+        self.board = board.Board()
+
+options = Options('aggressive', 'blademaster','celestial')
+
+
+
+myBot = Bot(options)
+#myBot.start()
+#Controller().position = (530, 750)
+
+
+#benchPositions = [(340,630), (430, 630), (520,630)]
+
+myBot.board.getClassImages()[0].show()
+
+#Contoller().position = (430, 360)
