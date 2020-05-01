@@ -1,5 +1,5 @@
 import inspect
-import bot
+from . import bot
 
 myBot = bot.Bot()
 
