@@ -1,4 +1,5 @@
-import bot, inspect
+import inspect
+import bot
 
 myBot = bot.Bot()
 
