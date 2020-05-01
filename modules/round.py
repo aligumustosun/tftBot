@@ -14,11 +14,11 @@ def getSeconds(callDepth=0):
             if(allDigit(roundTimeDouble)):
                 return int(roundTimeDouble)
             else:
-                return getSecondsLeft(callDepth+1)    
+                return getSeconds(callDepth+1)    
         elif(allDigit(roundTimeSingle[0])):
             return int(roundTimeSingle[0])
         else:
-            return (getSecondsLeft(callDepth+1))    
+            return (getSeconds(callDepth+1))    
     except:
         print("Error when reading seconds left")
         return 0
