@@ -9,8 +9,19 @@ from modules import *
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
+
+class Options():
+    def __init__(self, economyMode, selectedOrigin, selectedClass):
+        self.economyMode = economyMode
+        self.selectedOrigin = selectedOrigin
+        self.selectedClass = selectedClass
+        self.board = board.Board()
+
+
+defaultOptions = Options('aggressive', 'blademaster','celestial')
+
 class Bot():
-    def __init__(self, options):
+    def __init__(self, options=defaultOptions):
         botParser.initializeValues(self, options)
 
     def getInformations(self):
@@ -35,24 +46,11 @@ class Bot():
         elif(Controller().position == (1535,863)):
             self.start()    
 
-class Options():
-    def __init__(self, economyMode, selectedOrigin, selectedClass):
-        self.economyMode = economyMode
-        self.selectedOrigin = selectedOrigin
-        self.selectedClass = selectedClass
-        self.board = board.Board()
 
-options = Options('aggressive', 'blademaster','celestial')
-
-
-
-myBot = Bot(options)
+myBot = Bot()
+print(round.getSeconds(0))
 #myBot.start()
 #Controller().position = (530, 750)
-
-
 #benchPositions = [(340,630), (430, 630), (520,630)]
-
-myBot.board.getClassImages()[0].show()
-
+#myBot.board.getClassImages()[0].show()
 #Contoller().position = (430, 360)
