@@ -48,7 +48,6 @@ class Bot():
 
 
 myBot = Bot()
-print(round.getSeconds(0))
 #myBot.start()
 #Controller().position = (530, 750)
 #benchPositions = [(340,630), (430, 630), (520,630)]
