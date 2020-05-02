@@ -3,23 +3,74 @@ import cv2
 import numpy as nm
 from pynput.mouse import Controller
 
-def getImages(imageType):
-    if(imageType == 'shopClasses'):
-        return [
-        ImageGrab.grab(bbox =(507, 1015, 640, 1035)),
-        ImageGrab.grab(bbox =(707, 1015, 840, 1035)),
-        ImageGrab.grab(bbox =(907, 1015, 1040, 1035)),
-        ImageGrab.grab(bbox =(1107, 1015, 1240, 1035)),
-        ImageGrab.grab(bbox =(1307, 1015, 1440, 1035))
-        ]
-    elif(imageType == 'shopOrigins'):
-        return [
-        ImageGrab.grab(bbox =(507, 985, 640, 1010)),
-        ImageGrab.grab(bbox =(707, 985, 840, 1010)),
-        ImageGrab.grab(bbox =(907, 985, 1040, 1010)),
-        ImageGrab.grab(bbox =(1107, 985, 1240, 1010)),
-        ImageGrab.grab(bbox =(1307, 985, 1440, 1010))
-        ]
+xDiff = 201
+
+classXStart = 507
+classYStart = 1013
+classYEnd = 1032
+classXDif = 80
+
+originXStart = 507
+originYStart = 987
+originYEnd = 1007
+originXDif = 60
+
+nameXStart = 482
+nameYStart = 1043
+nameYEnd = 1064
+nameXDif = 90
+
+shopClassImages = []
+shopOriginImages = []
+shopHeroNameImages = []
+for i in range(5):
+    classXEnd = classXStart + xDiff*i + classXDif
+    originXEnd = originXStart + xDiff*i + originXDif
+    nameXEnd = nameXStart + xDiff*i + nameXDif
+    shopClassImages.append(
+        ImageGrab.grab(bbox = (classXStart+i*xDiff, classYStart, classXEnd , classYEnd))
+    )
+    shopOriginImages.append(
+        ImageGrab.grab(bbox = (originXStart+i*xDiff, originYStart, originXEnd , originYEnd))
+    )
+    shopHeroNameImages.append(
+        ImageGrab.grab(bbox = (nameXStart+i*xDiff, nameYStart, nameXEnd , nameYEnd))
+    )
+      
+def getShopCardImages(i):
+    return [shopClassImages[i], shopOriginImages[i], shopHeroNameImages[i]]
+
+
+sinergyImages = []
+
+#firstSinergy (81,287,181,307)
+#second sinergy (81, 337, 181, 357)
+sinergyXStart = 81
+sinergyXDiff = 100
+sinergyYStart = 287
+sinergyYDiff = 20
+sinergyDiff = 50
+countXStart = 58
+countYStart = 297
+countXDiff = 12
+countYDiff = 25
+for i in range(3):
+    sinergyYEnd = sinergyYStart + i*sinergyDiff + sinergyYDiff
+    countYEnd = countYStart + i*sinergyDiff + countYDiff
+    sinergyImages.append(
+       [
+       ImageGrab.grab(bbox = (
+           sinergyXStart, sinergyYStart + sinergyDiff * i,
+            sinergyXStart+sinergyXDiff , sinergyYEnd)),
+       ImageGrab.grab(bbox = (
+           countXStart, countYStart + sinergyDiff * i,
+            countXStart+countXDiff , countYEnd))       
+       ] 
+    )
+
+def getSinergyImages(imageCount):
+    return sinergyImages[0:imageCount]
+
 
 
 def getImage(imageType):

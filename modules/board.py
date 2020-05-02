@@ -4,15 +4,7 @@ mouse = mouseController()
 keyboard = keyboardController()
 from PIL import ImageGrab
 import time
-
-
-def mouseToScreen(position):
-    x,y = position
-    return (int(x*xRatio), int(y*yRatio))
-
-def screenToMouse(position):
-    x,y = position
-    return (int(x/xRatio), int(y/yRatio))
+from .convert import *
 
 class Board():
     def __init__(self):
@@ -47,7 +39,5 @@ class Board():
         
     def getOriginImages(self):
         return self.originImages
-        
-xRatio = 1.2508143322475571
-yRatio = 1.2514484356894555
+
 

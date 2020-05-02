@@ -9,6 +9,7 @@ from modules import *
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
+mouse = Controller()
 
 class Options():
     def __init__(self, economyMode, selectedOrigin, selectedClass):
@@ -31,25 +32,11 @@ class Bot():
         
     def start(self):
         self.running = True
-        while(self.running):
-            checked = shop.checkSinergies(self.selectedClass, self.selectedOrigin)
-            if(checked == 0):
-                time.sleep(1)
-            else:
-                time.sleep(round.getSeconds()+1)
-    def stop(self):
-        self.running = False
 
-    def checkMouse(self):
-        if(Controller().position == (0,0)):
-            self.stop()
-        elif(Controller().position == (1535,863)):
-            self.start()    
+#myBot = Bot()
+#shop.checkSinergies()
 
-
-myBot = Bot()
-#myBot.start()
-#Controller().position = (530, 750)
-#benchPositions = [(340,630), (430, 630), (520,630)]
-#myBot.board.getClassImages()[0].show()
-#Contoller().position = (430, 360)
+#print(convert.mouseToScreen(mouse.position))
+print(sinergy.getSinergies())
+#firstSinergy (81,287,181,307)
+#second sinergy (81, 337, 181, 357)

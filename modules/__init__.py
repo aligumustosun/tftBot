@@ -1,1 +1,1 @@
-__all__ = ["board", "botParser", "convert", "crop", "gold", "round", "shop", "bench"]
+__all__ = ["board", "botParser", "convert", "crop", "gold", "round", "shop", "sinergy", "bench", "heros", "classes", "origins", "match"] 

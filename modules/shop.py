@@ -1,16 +1,14 @@
-from difflib import SequenceMatcher
-from .static.classes import getClasses
-from .static.origins import getOrigins
-from . import crop, convert
+from .crop import *
+from .convert import *
 from pynput.mouse import Button, Controller
+from .classes import * 
+from .origins import *
+from .match   import *
+import cv2
+
 import time
 
-origins = getOrigins()
-classes = getClasses()
 mouse = Controller()
-
-def similar(a, b):
-    return SequenceMatcher(None, a, b).ratio()
 
 def produceSimiliarTexts(text):
     lowerText = text.lower()
@@ -22,71 +20,29 @@ def produceSimiliarTexts(text):
 
 exceptionOrigins = ["dark", "space", "star", "void"]
 
-
-def checkSinergies(selectedOrigin, selectedClass):
+def checkSinergies():
     try:
-        classImages = crop.getImages('shopClasses')
         i = 0
-        for image in classImages:
-            classText = convert.imageToText(image) 
-            foundClass = checkClass(classText, 0, 0)
-            if(selectedClass == foundClass):
-                buy(i)
-            i+=1        
-            time.sleep(1)
-            print("foundClass: " + foundClass)
-        originImages = crop.getImages('shopOrigins')
-        i = 0
-        for image in originImages:
-            originText = convert.imageToText(image)
-            foundOrigin = checkOrigin(originText, 0, 0)
-            if(selectedOrigin == foundOrigin):
-                buy(i)    
-            i+=1
-            time.sleep(1)
-            print("foundOrigin: " + foundOrigin)
-        return [foundClass, foundOrigin]
-    except NameError:
-        print("Error when trying to check sinergies: "+ NameError)
+        for i in range(5):
+            images = getShopCardImages(i)
+            classText = imageToText(images[0])
+            originText = imageToText(images[1])
+            heroName = imageToText(images[2])
+            matchedClass = matchClass(classText)
+            matchedOrigin = matchOrigin(originText)
+            print(heroName + ":")
+            print(matchedClass)
+            print(matchedOrigin)
+            matchedClass.increaseShopCount()
+            matchedOrigin.increaseShopCount()
+    except :
+        print("Error when trying to check sinergies: ")
         return 0
 
-def checkOrigin(originText, classText, callTime):
-    print("originText: " + originText)
-    if(originText == ''):
-        return 'None'
-    if(callTime == 1):
-        return classText
-    texts = originText.lower().split(" ")
-    texts = originText
-    similarities = []
-    for origin in origins:
-        halfLength = int(len(origin)/2)
-        parsedOrigins = [origin[0:halfLength], origin[halfLength:len(origin)-1] ]
-        if(len(texts) == 2):
-            similarities.append(similar(parsedOrigins[0], texts[0]) + similar(parsedOrigins[1], texts[1]))
-        else:
-            similarities.append(similar(origin, originText))
-        if(max(similarities)>0.4):        
-            return origins[similarities.index(max(similarities))]    
-    else:
-        return checkClass(originText, origins[similarities.index(max(similarities))], 1)
-
+def checkOrigin(originText):
+    return
 def checkClass(classText, originText, callTime):
-    if(classText == ''):
-        return 'None'
-    if(callTime == 1):
-        return originText
-    texts = classText.lower().split(" ")
-    similarities = []
-    for heroClass in classes:
-        if(len(texts) == 2):
-            similarities.append(similar(heroClass, texts[0]) + similar(heroClass, texts[1]))
-        else:
-            similarities.append(similar(heroClass, texts[0]))
-    if(max(similarities)>0.4):    
-        return classes[similarities.index(max(similarities))]
-    else:
-        return checkOrigin(classText, classes[similarities.index(max(similarities))], 1)        
+    return
 
 
 def buy(heroIndex):
